@@ -30,7 +30,7 @@ def sample_loss( estimator, X, y ):
                            X,
                            y=y,
                            scoring='roc_auc',
-                           cv=3).mean()
+                           cv=2).mean()
 
 def _main():
 
@@ -40,22 +40,22 @@ def _main():
                                n_redundant=2)
 
     s1 = SequentialStage()
-    s1.add( VarianceThreshold, params={ 'threshold' : continuous( 0.0, 0.05 ) } )
+    s1.add( VarianceThreshold, params={ 'threshold' : continuous( 0, 0.05 ) } )
     s1.add( StandardScaler )
-    s1.add( SMOTE, params={ 'k_neighbors' : discrete( [ 5, 6, 7 ] ) } )
-    
+#    s1.add( SMOTE, params={ 'k_neighbors' : discrete( [ 5, 6, 7 ] ) } )
+
     s2 = StackedStage()
-    s2.add( KNeighborsClassifier, params={ 'n_neighbors' : discrete( xrange(5,30,2) ),
+    s2.add( KNeighborsClassifier, params={ 'n_neighbors' : discrete( xrange(5,30,8) ),
                                            'weights' : discrete( [ 'uniform', 'distance' ] ) } )
-    s2.add( RandomForestClassifier, params={ 'n_estimators' : discrete( xrange(10,500,50) ) } )
-    s2.add( LogisticRegression, params={ 'C' : continuous(-4,1) } )
+    s2.add( RandomForestClassifier, params={ 'n_estimators' : discrete( xrange(10,500,200) ) } )
+    s2.add( LogisticRegression, params={ 'C' : continuous(0.001,10) } )
 
-    ik = IPipeline( stages=[ s1, s2 ], loss=partial(sample_loss,X=X,y=y) )
+    ik = IPipeline( stages=[s1,s2], loss=partial(sample_loss,X=X,y=y), verbose=True )
+
     ik.fit( X, y )
+    ik.optimize(10)
 
-    ik.best_estimator_
-    ik.best_params_
-    ik.best_score_
+    print( '{}: {}'.format(ik.best_score_, ik.best_estimator_.get_params()) )
 
     return 0
 
