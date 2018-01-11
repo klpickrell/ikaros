@@ -9,6 +9,13 @@ Automated model building with sklearn.  The ultimate evolution in Automated Mode
 from ikaros.pipeline import IPipeline
 from ikaros.stages   import SequentialStage, StackedStage
 from ikaros.sampling import discrete, continuous
+
+def sample_loss( estimator, X, y ):
+    return cross_val_score(estimator,
+                           X,
+                           y=y,
+                           scoring='roc_auc',
+                           cv=2).mean()
 ...
 X, y = make_classification(n_samples=1000,
                            n_features=10,
