@@ -41,7 +41,7 @@ class BayesPipeline(ClassifierMixin):
             self.stage_space.append(thisparams)
             self.stage_space_bounds.update(thisbounds)
 
-    def optimize( self, n, alpha=1e-5, epsilon=1e-7 ):
+    def optimize( self, n_iterations, alpha=1e-5, epsilon=1e-7 ):
         kernel = gp.kernels.Matern()
         model = gp.GaussianProcessRegressor(kernel=kernel,
                                             alpha=alpha,
@@ -51,7 +51,7 @@ class BayesPipeline(ClassifierMixin):
         xp = np.array( [ p.values() for p in self.stage_space ] )
         bounds = np.array(self.stage_space_bounds.values())
         yp = np.array( self.stage_loss )
-        for n in range(n):
+        for n in range(n_iterations):
             model.fit(xp, yp)
             next_p = _next_sample(_expected_improvement, model, yp, greater_is_better=True, bounds=bounds, n_restarts=100)
             # remove near duplicates
@@ -130,13 +130,13 @@ class IPipeline(ClassifierMixin):
                 self.best_estimator_ = bp.stage_estimators[idx]
 
 
-    def optimize( self, n, depth=1, alpha=1e-5, epsilon=1e-7 ):
+    def optimize( self, n_iterations, depth=1, alpha=1e-5, epsilon=1e-7 ):
         op = lambda x: x
         if self.verbose:
             print( 'optimizing pipelines...' )
             op = tqdm
         for p in op(self.pipelines):
-                p.optimize(n)
+                p.optimize(n_iterations)
 
         index = np.argsort([np.max(bp.stage_loss) for bp in self.pipelines])[-depth:]
         op = lambda x: x
@@ -145,7 +145,7 @@ class IPipeline(ClassifierMixin):
             op = tqdm
         for i in op(index):
             bp = self.pipelines[int(i)]
-            bp.optimize(n*depth)
+            bp.optimize(n_iterations*depth)
 
 
     def transform( self, X ):
