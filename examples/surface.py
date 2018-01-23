@@ -58,7 +58,7 @@ def _main():
     yest = np.array(bpipeline.stage_loss)
     Xvest = np.array([(i['SVC__gamma'],i['LogisticRegression__C']) for i in bpipeline.stage_space])
 
-    bpipeline.bootstrap(bootstrap=50)
+    bpipeline.bootstrap(bootstrap=100)
 
     y = np.array(bpipeline.stage_loss)
     X = np.array([(i['SVC__gamma'],i['LogisticRegression__C']) for i in bpipeline.stage_space])
