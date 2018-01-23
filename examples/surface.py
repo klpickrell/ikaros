@@ -52,7 +52,7 @@ def _main():
     ik = IPipeline( stages=[s1,s2], loss=partial(sample_loss,X=X,y=y), verbose=True )
 
     ik.fit( X, y )
-    ik.optimize(n_iterations=15)
+    ik.optimize(n_iterations=30)
 
     bpipeline = ik.pipelines[0]
     yest = np.array(bpipeline.stage_loss)
@@ -75,6 +75,7 @@ def _main():
     ax.set_ylim(0,10)
     cp = ax.tricontourf(X[:,0], X[:,1], y, 100, cmap='viridis')
     plt.colorbar(cp)
+    ax.scatter(X[:,0], X[:,1], color='blue', s=20)
     ax.scatter(optimum_X[0], optimum_X[1], marker='*', c='gold', s=150)
     ax.annotate('{}'.format(optimum), xy=(optimum_X[0], optimum_X[1]), xytext=(optimum_X[0]+0.2, optimum_X[1]+0.2),
                 arrowprops=dict(facecolor='black', shrink=0.05),
