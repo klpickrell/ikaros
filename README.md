@@ -15,10 +15,20 @@ are three primary stages:
 
 Within each stage, it is often the case that the ordering is flexible.  `ikaros` provides stages that allow for exploration
 of permuted orderings.  It is almost always the case that each stage has multiple processes that each have several meta-parameters.
-It can be quite difficult, owing to the large nature of the parameter space, to find the optimum set of parameters.  `ikaros`
-provides a bayesian optimization search over the space of both continuous and discrete parameters.
+It can be quite difficult, owing to the large nature of the parameter space, to find the optimum set of parameters.  Curiously,
+standard ways of searching tend to be one of randomized searching or an exhaustive search of the cross-product grid of parameters.  `ikaros`
+provides a bayesian optimization search over the space of both continuous and discrete parameters that uses gaussian processes
+to estimate the loss surface and direct the sampling at the highest likelihood regions in a way that is a compromise between
+exploitation (searching known-good regions) and exploration (searching unknown-good regions).
+
+For example, consider a pipeline with two parameters, an SVC gamma and the regularization constant C of a logistic regression model.  For a range
+of each of these parameters, a two dimensional surface is defined where each point is valued by the loss function:
 
 ![kernel](images/kernelsurface.png "Kernel Surface")
+
+The task is to find the optimum values of gamma and C such that the loss is minimized (or maximized since min(g(x)) == max(-g(x))).  In the 
+plot above, you can see the maximum that `ikaros` finds indicated with a gold star.  You can also see that it tends to isolate it's search
+to the most likely areas to contain the maximum.
 
 
 ## Motivating Example
