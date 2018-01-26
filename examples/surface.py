@@ -81,7 +81,7 @@ def _main():
                 arrowprops=dict(facecolor='black', shrink=0.05),
                 )
 
-    plt.savefig( 'kernelsurface.png' )
+    plt.savefig( '../images/kernelsurface.png' )
     plt.show()
 
     return 0

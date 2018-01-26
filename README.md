@@ -4,6 +4,23 @@ Automated model building with sklearn.  The ultimate evolution in Automated Mode
 
 ![AMBO](images/ambo.jpg "AMBO-Jitsu")
 
+## Description
+
+`ikaros` provides a framework for optimizing the various meta-parameters of a pipeline.  In many pipelines, there 
+are three primary stages:
+
+* Preprocessing: This includes operations such as thresholding, dimension reduction, oversampling, kernel estimation, etc.
+* Classification/Regression: Build multiple estimators to perform the classification/regression task
+* Ensembling: Combine results from stage two to produce the final output
+
+Within each stage, it is often the case that the ordering is flexible.  `ikaros` provides stages that allow for exploration
+of permuted orderings.  It is almost always the case that each stage has multiple processes that each have several meta-parameters.
+It can be quite difficult, owing to the large nature of the parameter space, to find the optimum set of parameters.  `ikaros`
+provides a bayesian optimization search over the space of both continuous and discrete parameters.
+
+![kernel](images/kernelsurface.png "Kernel Surface")
+
+
 ## Motivating Example
 ```
 from ikaros.pipeline import IPipeline
