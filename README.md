@@ -77,13 +77,13 @@ Please read CONTRIBUTING.md for details on our code of conduct, and the process 
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://git.xogrp.com/CoreTechnologies/ikaros/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/ikaros/tags). 
 
 ## Authors
 
 * **Kris Pickrell**
 
-See also the list of [contributors](https://git.xogrp.com/CoreTechnologies/ikaros/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/ikaros/contributors) who participated in this project.
 
 ## License
 
