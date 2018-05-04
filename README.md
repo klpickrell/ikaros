@@ -3,7 +3,9 @@
 Automated model building with sklearn.  The ultimate evolution in Automated Model Building Optimization (AMBO).
 
 <!-- ![AMBO](images/ambo.jpg "AMBO-Jitsu") -->
+<div align="center">
 <img src="images/ambo.jpg" alt="AMBO-Jitsu" height="50%" width="50%">
+</div>
 
 ## Description
 
